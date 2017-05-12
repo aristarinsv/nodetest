@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Тестовое задание</title>
+<META http-equiv=Content-Type content="text/html; charset=utf-8">
+<script>
+onload = function(){
+    var ws = new WebSocket("ws://127.0.0.6:9000");
+    ws.onmessage = function(event){
+        var message = JSON.parse(event.data);
+        var dv = document.getElementById('conteiner');
+        for(key in message){
+            createDiv(dv, message[key]);
+        }
+        dv.addEventListener("click", function(event) {
+            if (event.target.nodeName == "SPAN"){
+                par = event.target.parentNode;
+                par.parentNode.removeChild(par);
+            }
+        });
+    }
+    function createDiv(conteiner, jsn){
+        var elDiv = document.createElement('div');
+        elDiv.className = "col-xs-6 col-md-4";
+        var elSpan = document.createElement('span');
+        var messageText = document.createTextNode(jsn.text);
+        var messageTitle = document.createTextNode(jsn.title);
+        elSpan.appendChild(messageTitle);
+        elDiv.appendChild(elSpan);
+        elDiv.appendChild(messageText);
+        conteiner.appendChild(elDiv);
+    }
+}
+</script>
+<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+<h1>Тест</h1>
+<div id='conteiner'>
+</div>
+</body>
+</html>
